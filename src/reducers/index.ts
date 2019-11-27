@@ -114,7 +114,6 @@ const reducer: Reducer = (state = initialState, action: ApplicationActionTypes) 
     }
 
     case "INCREASE_SCORE": {
-      console.log("yes")
       const newScore = state.Game.score + 100;
       return {
         ...state,
