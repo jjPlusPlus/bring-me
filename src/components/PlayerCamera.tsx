@@ -68,7 +68,7 @@ const PlayerCamera: React.FC = (props: any) => {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  screenshot: state.screenshot
+  screenshot: state.Camera.screenshot
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
