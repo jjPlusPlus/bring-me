@@ -16,7 +16,7 @@ const initialState = {
     timer: 0,
     score: 0,
     words: [ 
-      { text: 'Beer'},
+      { text: 'Person'},
       { text: 'Egg'},
       { text: 'Dog'},
       { text: 'Pillow'},
