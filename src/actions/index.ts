@@ -1,10 +1,27 @@
 // import * as constants from "../constants";
 
-export interface AddScreenshot {
-  type: "ADD_SCREENSHOT";
+export interface RecognizeImage {
+  type: "RECOGNIZE_IMAGE";
   payload: {
     data: string;
   };
+}
+
+export interface FetchingRecognition {
+  type: "FETCHING_RECOGNITION",
+  payload: boolean
+}
+
+export interface RecognitionError {
+  type: "RECOGNITION_ERROR",
+  payload: boolean
+}
+
+export interface AddScreenshot {
+  type: "ADD_SCREENSHOT",
+  payload: {
+    data: string
+  }
 }
 
 export interface SetupGame {
@@ -31,12 +48,30 @@ export interface IncreaseScore {
 }
 
 export type ApplicationActionTypes = 
-  | AddScreenshot 
+  | AddScreenshot
+  | RecognizeImage 
+  | FetchingRecognition
+  | RecognitionError
   | SetupGame 
   | SetClock
   | DecrementClock
   | NextWord
   | IncreaseScore;
+
+export const recognizeImage = (data: string) => ({
+  type: "RECOGNIZE_IMAGE",
+  payload: data
+});
+
+export const fetchingRecognition = (status: boolean) => ({
+  type: "FETCHING_RECOGNITION",
+  payload: status
+});
+
+export const recognitionError = (status: boolean) => ({
+  type: "RECOGNITION_ERROR",
+  payload: status
+});
 
 export const addScreenshot = (data: string) => ({
   type: "ADD_SCREENSHOT",
