@@ -13,9 +13,9 @@ const GameWrapper: React.FC = ( props: any ) => {
   const currentWord = props.Game.words[props.Game.currentWordIndex].text;
   return (
     <div className="flex flex-col">
-      <div className="w-full text-center text-3xl">{props.Game.timer}</div>
-      <div className="flex max-w-6xl w-full mx-auto">
-        <div className="words flex flex-col w-1/6 p-4 bg-gray-100 mx-2 rounded shadow">
+      <div className="text-center text-3xl w-full">{props.Game.timer}</div>
+      <div className="flex flex-col md:flex-row md:max-w-6xl mx-auto w-full">
+        <div className="words bg-gray-100 hidden md:flex flex-col mx-2 p-4 rounded shadow md:w-1/6">
           {props.Game.words.map((word: any, index: number) => {
             let check;
             if (word.text === currentWord) {
@@ -29,11 +29,11 @@ const GameWrapper: React.FC = ( props: any ) => {
             )
           })}
         </div>
-        <div className="w-2/3 flex flex-col justify-center items-center">
-          <h2>Current Word: {currentWord} </h2>
+        <div className="flex flex-col justify-center items-center md:w-2/3">
+          <div className="text-5xl">"{currentWord}"</div>
           <PlayerCamera />
         </div>
-        <div className="w-1/6">
+        <div className="md:w-1/6">
           <div>Score: {props.Game.score}</div>
         </div>
       </div>
