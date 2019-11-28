@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 import Webcam from 'react-webcam';
 
-import { addScreenshot } from "../actions";
+import { recognizeImage } from "../actions";
 
 import { AppState } from "../types";
 
@@ -24,7 +24,7 @@ const PlayerCamera: React.FC = (props: any) => {
       const current = webcamRef.current;
       if (current !== null) {
         const screenshotSource = current.getScreenshot();
-        props.addScreenshot(screenshotSource);
+        props.recognizeImage(screenshotSource);
       }
     }, 
     [webcamRef]
@@ -72,7 +72,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
-  addScreenshot: (data: any) => dispatch(addScreenshot(data)),
+  recognizeImage: (data: any) => dispatch(recognizeImage(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerCamera);
