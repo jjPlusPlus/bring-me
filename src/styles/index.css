@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+
+body {
+  @apply text-navy;
+  font-family: 'Varela', sans-serif;
+}
+
+.words span {
+  @apply py-4 text-xl border-b border-gray-300;
+}
