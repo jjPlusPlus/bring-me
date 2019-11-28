@@ -124,6 +124,26 @@ const reducer: Reducer = (state = initialState, action: ApplicationActionTypes) 
       }
     }
 
+    case "FETCHING_RECOGNITION": {
+      return {
+        ...state,
+        Recognition: {
+          ...state.Recognition,
+          fetching: action.payload
+        }
+      }
+    }
+
+    case "RECOGNITION_ERROR": {
+      return {
+        ...state,
+        Recognition: {
+          ...state.Recognition,
+          error: action.payload
+        }
+      }
+    }
+
     default:
       return state;
   }
