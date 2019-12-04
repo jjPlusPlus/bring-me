@@ -16,7 +16,7 @@ const initialState = {
     timer: 0,
     score: 0,
     words: [ 
-      { text: 'Beer'},
+      { text: 'Person'},
       { text: 'Egg'},
       { text: 'Dog'},
       { text: 'Pillow'},
@@ -120,6 +120,26 @@ const reducer: Reducer = (state = initialState, action: ApplicationActionTypes) 
         Game: {
           ...state.Game,
           score: newScore
+        }
+      }
+    }
+
+    case "FETCHING_RECOGNITION": {
+      return {
+        ...state,
+        Recognition: {
+          ...state.Recognition,
+          fetching: action.payload
+        }
+      }
+    }
+
+    case "RECOGNITION_ERROR": {
+      return {
+        ...state,
+        Recognition: {
+          ...state.Recognition,
+          error: action.payload
         }
       }
     }

@@ -28,7 +28,8 @@ export interface Word {
 export interface Recognition {
   fetching: boolean;
   labels: Label[];
-  error: string;
+  error: boolean;
+  failed: boolean;
 }
 
 export interface Label {

@@ -1,12 +1,14 @@
 import React, { useState, useCallback, useRef } from 'react';
 import Webcam from 'react-webcam';
 
-import { addScreenshot } from "../actions";
+import { recognizeImage } from "../actions";
 
 import { AppState } from "../types";
 
 import { connect } from 'react-redux';
 import { AnyAction, Dispatch } from 'redux';
+
+import { TiCameraOutline, TiMediaRecord } from "react-icons/ti";
 
 const PlayerCamera: React.FC = (props: any) => {
 
@@ -24,7 +26,7 @@ const PlayerCamera: React.FC = (props: any) => {
       const current = webcamRef.current;
       if (current !== null) {
         const screenshotSource = current.getScreenshot();
-        props.addScreenshot(screenshotSource);
+        props.recognizeImage(screenshotSource);
       }
     }, 
     [webcamRef]
@@ -37,14 +39,16 @@ const PlayerCamera: React.FC = (props: any) => {
   */ 
   
   return (
-    <div className="player-camera">
-      <h1>Player Cam</h1>
-      {videoStarted ? (
-        <p>Webcam feed ready</p>
-      ) : (
-        <p>Webcam feed initializing</p>
-      )}
-      <div className="video-stream-wrapper">
+    <div className="player-camera w-full">
+      <div className="flex items-center">
+        <h1 className="px-1 text-gray-500 text-sm">Player Cam</h1>
+        {videoStarted ? (
+            <span className="text-light-green"><TiMediaRecord /></span>        
+        ) : (
+          <p>Webcam feed initializing...</p>
+        )}
+      </div>
+      <div className="video-stream-wrapper bg-powder-blue">
         <Webcam
           audio={false}
           ref={webcamRef}
@@ -54,11 +58,13 @@ const PlayerCamera: React.FC = (props: any) => {
           onUserMedia={() => updateVideoStarted(true)}
         />
       </div>
-      <button onClick={capture}>Capture a screenshot</button>
+      <button className="bg-bright-orange flex h-10 justify-center mx-auto my-4 rounded-full text-xl text-white w-10" onClick={capture}>
+        <TiCameraOutline />
+      </button>
       <div className="video-screenshot-preview">
         <p>preview of the screenshot</p>
         {props.screenshot ? (
-          <img src={props.screenshot} width={400}/>
+          <img src={props.screenshot} />
         ) : (
           <p>no preview yet</p>
         )}
@@ -72,7 +78,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
-  addScreenshot: (data: any) => dispatch(addScreenshot(data)),
+  recognizeImage: (data: any) => dispatch(recognizeImage(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerCamera);
