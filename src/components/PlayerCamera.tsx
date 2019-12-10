@@ -10,6 +10,11 @@ import { AnyAction, Dispatch } from 'redux';
 
 import { TiCameraOutline, TiMediaRecord } from "react-icons/ti";
 
+interface Props {
+  recognizeImage: (data: string | null) => void;
+  Camera: AppState['Camera'];
+}
+
 const PlayerCamera: React.FC = (props: any) => {
 
   let [videoStarted, updateVideoStarted] = useState(false);
@@ -61,14 +66,6 @@ const PlayerCamera: React.FC = (props: any) => {
       <button className="bg-bright-orange flex h-10 justify-center mx-auto my-4 rounded-full text-xl text-white w-10" onClick={capture}>
         <TiCameraOutline />
       </button>
-      <div className="video-screenshot-preview">
-        <p>preview of the screenshot</p>
-        {props.screenshot ? (
-          <img src={props.screenshot} />
-        ) : (
-          <p>no preview yet</p>
-        )}
-      </div>
     </div>
   );
 }
@@ -78,7 +75,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
-  recognizeImage: (data: any) => dispatch(recognizeImage(data)),
+  recognizeImage: (data: string) => dispatch(recognizeImage(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerCamera);
