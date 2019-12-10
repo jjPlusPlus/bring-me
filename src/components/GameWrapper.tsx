@@ -5,40 +5,103 @@ import { Dispatch, AnyAction } from 'redux';
 import { AppState } from '../types';
 import { setupGame, nextWord, increaseScore } from '../actions';
 
-const GameWrapper: React.FC = ( props: any ) => {
+interface Props {
+  Game: AppState['Game'];
+  Camera: AppState['Camera'];
+  Recognition: AppState['Recognition'];
+  setupGame: () => void;
+  nextWord: (winner: string) => void;
+  increaseScore: () => void;
+}
+
+const GameWrapper: React.FC<Props> = ( props ) => {
   useEffect(() => {
     props.setupGame();
-  }, []); // jj says this is terrible.
-  console.log(props)
-  const currentWord = props.Game.words[props.Game.currentWordIndex].text;
+  }, []);
+  
+
+  const currentWordIndex = props.Game.currentWordIndex;
+  const currentWord = props.Game.words[currentWordIndex].text;
+
   return (
     <div className="flex flex-col">
-      <div className="text-center text-3xl w-full">{props.Game.timer}</div>
+      <div className="text-center w-full">
+        <div className="text-3xl">{props.Game.timer}</div>
+        <div className="text-5xl">"{currentWord}"</div>
+      </div>
       <div className="flex flex-col md:flex-row md:max-w-6xl mx-auto w-full">
-        <div className="words bg-gray-100 hidden md:flex flex-col mx-2 p-4 rounded shadow md:w-1/6">
+        <div className="words bg-gray-100 hidden flex-col mx-2 p-4 rounded shadow md:flex md:mt-5 md:w-1/6">
           {props.Game.words.map((word: any, index: number) => {
-            let check;
-            if (word.text === currentWord) {
-              check = true;
+            let current, hidden, correct;
+            // check if word is current word
+            if (index === currentWordIndex) {
+              current = true;
             }
+
+            // check if word is correct or incorrect
+
+            // check if words should be hidden
+            if (index > currentWordIndex) {
+              hidden = true;
+            }
+            
             return (
-              <div>
-                { check ? <span>current -></span> : ""}
-                <span key={index}>{word.text} </span>
+              <div key={index}>
+                {
+                  hidden ? (
+                    <div><p>*****</p></div>
+                  ) : (
+                    <div>
+                      <p>{word.text}</p>
+                      {
+                        !current ? (
+                          correct ? (
+                            <span>RIGHT</span>
+                          ) : (
+                            <span>WRONG</span>
+                          )
+                        ) : ""
+                      }
+                    </div>
+                  )
+                }                
               </div>
             )
           })}
         </div>
         <div className="flex flex-col justify-center items-center md:w-2/3">
-          <div className="text-5xl">"{currentWord}"</div>
           <PlayerCamera />
         </div>
-        <div className="md:w-1/6">
+        <div className="md:mt-5 md:px-2 md:w-1/6">
           <div>Score: {props.Game.score}</div>
+          <div className="recognition-results">
+            <div className="previous-screenshot-preview">
+              {props.Camera.screenshot ? (
+                <img src={props.Camera.screenshot} width={400} />
+              ) : (
+                <p>no preview yet</p>
+              )}
+            </div>
+            <div className="previous-attempt-labels">
+              {props.Recognition.labels ? (
+                <div className="labels-list">
+                  <ul>
+                    {
+                      props.Recognition.labels.slice(0, 6).map((label: any, index: number) => {
+                        return <li key={index}>{label.name}</li>
+                      })
+                    }
+                  </ul>
+                </div>
+              ) : (
+                <div>poop</div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       
-      <button onClick={props.nextWord}>Skip</button>
+      <button onClick={() => props.nextWord('Jj')}>Skip</button>
       <button onClick={props.increaseScore}>Correct</button>
       
     </div>
@@ -46,16 +109,19 @@ const GameWrapper: React.FC = ( props: any ) => {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  ...state,
+  Game: state.Game,
+  Recognition: state.Recognition,
+  Camera: state.Camera
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
   setupGame: () => dispatch(setupGame()),
-  nextWord: () => dispatch(nextWord()),
+  nextWord: (winner:string) => dispatch(nextWord(winner)),
   increaseScore: () => dispatch(increaseScore()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameWrapper);
+const enhancer = connect(mapStateToProps, mapDispatchToProps);
+export default enhancer(GameWrapper);
 
 /* 
   TODO
