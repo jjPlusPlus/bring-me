@@ -41,10 +41,18 @@ export interface DecrementClock {
 
 export interface NextWord {
   type: "NEXT_WORD";
+  payload: {
+    winner: string
+  }
 }
 
 export interface IncreaseScore {
   type: "INCREASE_SCORE";
+}
+
+export interface RecognitionLabels {
+  type: "RECOGNITION_LABELS";
+  payload: any;
 }
 
 export type ApplicationActionTypes = 
@@ -56,7 +64,8 @@ export type ApplicationActionTypes =
   | SetClock
   | DecrementClock
   | NextWord
-  | IncreaseScore;
+  | IncreaseScore
+  | RecognitionLabels;
 
 export const recognizeImage = (data: string) => ({
   type: "RECOGNIZE_IMAGE",
@@ -87,14 +96,16 @@ export const setClock = (value: number) => ({
   payload: { value },
 })
 
-export const nextWord = () => ({
+export const nextWord = (winner: string) => ({
   type: "NEXT_WORD",
+  payload: { winner }
 })
 
 export const increaseScore = () => ({
   type: "INCREASE_SCORE",
 })
 
-/*
-  is there a way not to have to repeat everything?
-*/
+export const recognitionLabels = (labels: any) => ({
+  type: "RECOGNITION_LABELS",
+  payload: labels
+})
