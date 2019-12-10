@@ -11771,7 +11771,7 @@ video {
 
 body {
   color: #222B4C;
-  font-family: 'Varela', sans-serif;
+  font-family: 'Varela Round', sans-serif;
 }
 
 .words span {
@@ -11779,7 +11779,7 @@ body {
   padding-bottom: 1rem;
   font-size: 1.25rem;
   border-bottom-width: 1px;
-  border-color: #edf2f7;
+  border-color: #e2e8f0;
 }
 
 @media (min-width: 640px) {
