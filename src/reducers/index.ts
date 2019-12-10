@@ -16,11 +16,11 @@ const initialState = {
     timer: 0,
     score: 0,
     words: [ 
-      { text: 'Person'},
-      { text: 'Egg'},
-      { text: 'Dog'},
-      { text: 'Pillow'},
-      { text: 'Jacket'},
+      { text: 'Person', winner: null },
+      { text: 'Egg', winner: null },
+      { text: 'Dog', winner: null },
+      { text: 'Pillow', winner: null },
+      { text: 'Jacket', winner: null },
     ],
     currentWordIndex: 0,
   },
@@ -30,6 +30,7 @@ const initialState = {
     error: '',
   },
   Player: {
+    id: 'JJ',
     username: 'Jj',
     email: 'email@gmail.com',
     stats: { wins: 0, losses: 0 },
@@ -98,17 +99,30 @@ const reducer: Reducer = (state = initialState, action: ApplicationActionTypes) 
 
     case "NEXT_WORD": {
       let index = state.Game.currentWordIndex;
+
+      // immutable copy of the words array
+      const newWords = state.Game.words.slice();
+      // set the winner if there was one
+      // this reducer would have it as action.payload.winner
+      newWords[index].winner = action.payload.winner;
+  
+      // increase the index if it's not the last word, otherwise set it to the first word
       if (index < state.Game.words.length - 1) {
         index = index + 1;
       } else {
         index = 0;
       }
+      
+
+      
+
       return {
         ...state,
         Game: {
           ...state.Game,
           currentWordIndex: index,
           timer: 60,
+          words: newWords
         }
       }
     }
@@ -140,6 +154,16 @@ const reducer: Reducer = (state = initialState, action: ApplicationActionTypes) 
         Recognition: {
           ...state.Recognition,
           error: action.payload
+        }
+      }
+    }
+
+    case "RECOGNITION_LABELS": {
+      return {
+        ...state,
+        Recognition: {
+          ...state.Recognition,
+          labels: action.payload,
         }
       }
     }
