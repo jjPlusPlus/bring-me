@@ -7,22 +7,25 @@ export interface AppState {
 
 export interface Camera {
   active: boolean;
-  screenshot: Screenshot;
+  screenshot: string;
 }
 
-export interface Screenshot {
-  data: string;
-}
+// export interface Screenshot {
+//   data: string;
+// }
 
 export interface Game {
   timer: number;
   score: number;
   words: Word[];
   currentWordIndex: number;
+  rounds: Round[];
 }
 
 export interface Word {
   text: string;
+  // player who won by uuid or null if nobody got it
+  winner: string;
 }
 
 export interface Recognition {
@@ -38,6 +41,7 @@ export interface Label {
 }
 
 export interface Player {
+  id: string;
   username: string;
   email: string;
   stats: Stats;
@@ -46,4 +50,8 @@ export interface Player {
 export interface Stats {
   wins: number;
   losses: number;
+}
+
+export interface Round {
+  winner: string;
 }
