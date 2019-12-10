@@ -25,7 +25,8 @@ function* getLabelsSaga(data:any) {
 
   // if the api call succeeded, add the labels
   if (labels) {
-    yield put({ type: "RECOGNITION_LABELS", payload: labels});
+    console.log(labels);
+    yield put({ type: "RECOGNITION_LABELS", payload: labels.labels});
     yield put({ type: "FETCHING_RECOGNITION", payload: false });
 
     // fetch the current word from state
@@ -35,7 +36,6 @@ function* getLabelsSaga(data:any) {
 
     // check the labels for a match against the current word in the game logic
     // by string-matching each returned label's 'name' against the current word
-    debugger;
     const match = labels.labels.filter((label: any) => {
       return label.name === currentWord;
     });
@@ -43,7 +43,7 @@ function* getLabelsSaga(data:any) {
     // if there is a match, increase the score, set the next word
     if (match.length) {
       console.log(match);
-      yield put({ type: "NEXT_WORD" });
+      yield put({ type: "NEXT_WORD", payload: { winner: "JJ" } });
       yield put({ type: "START_CLOCK" });
       yield put({ type: "INCREASE_SCORE" });
     } else {
@@ -68,7 +68,7 @@ function* startClockSaga() {
   }
 
   if (time === 0) {
-    yield put({ type: "NEXT_WORD" });
+    yield put({ type: "NEXT_WORD", payload: { winner: null } });
     yield put({ type: "START_CLOCK" });
   }
 }
