@@ -177,6 +177,13 @@ const reducer: Reducer = (state = initialState, action: ApplicationActionTypes) 
       }
     }
 
+    case "UPDATE_LOBBY": {
+      return {
+        ...state,
+        Lobby: action.payload.state,
+      }
+    }
+
     default:
       return state;
   }
