@@ -17,7 +17,7 @@ const Lobby: React.FC = (props: any) => {
       // cleanup here, disconnect from socket
       props.closeSocket();
     }
-  });
+  }, []);
 
   return (
     <div className="lobby">
