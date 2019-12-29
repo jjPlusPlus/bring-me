@@ -1,5 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+
+import { connect } from "react-redux"; 
+import { Dispatch, AnyAction } from "redux";
+
+import { socketConnect } from "../actions";
+import { propStyle } from "aws-amplify-react";
+
+const Lobby: React.FC = (props: any) => {
+
+  // fire off the action to make the WS connection
+  // todo: use an env variable to poin to the wsServer
+  const socket = useEffect(()=> {
+    props.socketConnect("ws://127.0.0.1:8080");
+    return () => {
+      // cleanup here, disconnect from socket
+      props.closeSocket();
+    }
+  });
 
   return (
     <div className="lobby">
