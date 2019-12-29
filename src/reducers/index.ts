@@ -35,6 +35,15 @@ const initialState = {
     email: 'email@gmail.com',
     stats: { wins: 0, losses: 0 },
   },
+  Lobby: {
+    offline: [],
+    online: [],
+    matchMakingQueue: {
+      groups: [],
+      waiting: []
+    },
+    matches: []
+  }
 };
 
 /* GAME LOGIC STUFF:
