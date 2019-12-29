@@ -106,8 +106,12 @@ const Lobby: React.FC = (props: any) => {
   );
 }
 
+const mapStateToProps = (state: any) => ({
+  Lobby: state.Lobby
+})
+
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
   socketConnect: (host: string) => dispatch(socketConnect(host))
 });
 
-export default connect(null, mapDispatchToProps)(Lobby);
+export default connect(mapStateToProps, mapDispatchToProps)(Lobby);
