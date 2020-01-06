@@ -12,6 +12,7 @@
     "@types/redux-logger": "^3.0.7",
     "aws-amplify": "^1.2.4",
     "aws-amplify-react": "^2.5.4",
+    "connected-react-router": "^6.6.1",
     "data-uri-to-buffer": "^3.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",

@@ -1,11 +1,10 @@
-import { Reducer } from "redux";
-
-import { AppState } from "../types";
+import { Reducer, combineReducers } from "redux";
+import { connectRouter } from 'connected-react-router';
+// import { AppState } from "../types";
 
 // import * as constants from "../constants";
 
 import { ApplicationActionTypes } from "../actions";
-
 
 const initialState = {
   Camera: {
@@ -62,7 +61,7 @@ const initialState = {
  * REKOGNITION_LABELS (success- set the labels with the returned value from the API)
 */
 
-const reducer: Reducer = (state = initialState, action: ApplicationActionTypes) => {
+const app: Reducer = (state = initialState, action: ApplicationActionTypes) => {
 
   switch (action.type) {
     case "ADD_SCREENSHOT": {
@@ -196,4 +195,9 @@ const reducer: Reducer = (state = initialState, action: ApplicationActionTypes) 
   }
 };
 
-export default reducer;
+const createRootReducer = (history: any) => combineReducers({
+  router: connectRouter(history),
+  app,
+});
+
+export default createRootReducer;

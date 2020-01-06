@@ -20,16 +20,14 @@ Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/game">
-          <GameWrapper />
-        </Route>
-        <Route path="/">
-          <Lobby />
-        </Route>
-      </Switch>
-    </Router>
+    <Switch>
+      <Route path="/game">
+        <GameWrapper />
+      </Route>
+      <Route path="/">
+        <Lobby />
+      </Route>
+    </Switch>
   );
 }
 
