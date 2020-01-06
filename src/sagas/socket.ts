@@ -1,6 +1,8 @@
-import { put, call, take, takeLatest, takeEvery } from 'redux-saga/effects';
+import { put, call, take, takeLatest, takeEvery } from "redux-saga/effects";
+import { push } from "connected-react-router";
 import { eventChannel } from "redux-saga";
-import { Auth } from 'aws-amplify';
+import { Auth } from "aws-amplify";
+
 
 let wsocket: any; 
 
@@ -49,6 +51,18 @@ function* socketOnMessage(event: any) {
   switch (message.type) {
     case "UPDATE_LOBBY":
       yield put({ type: "UPDATE_LOBBY", payload: message.state});
+      break;
+    case "NEW_MATCH": 
+      const { channel, players } = message.broadcast;
+      const player = yield Auth.currentAuthenticatedUser();
+      const uuid = player.attributes['sub'];
+
+      // does the player's uuid match one of the players in the message?
+      const enterMatch = players.filter((p: any) => p.id === uuid);
+      if (enterMatch) {
+        // update react history to go to /match/:channelID
+        yield put(push("/match/" + channel.name));
+      }
       break;
     default:
       console.log('message type not handled.');
