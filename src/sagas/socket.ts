@@ -1,4 +1,4 @@
-import { put, call, take, takeLatest, takeEvery, select, delay } from 'redux-saga/effects';
+import { put, call, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import { eventChannel } from "redux-saga";
 
 function* createLobbyChannel(socket: any) {
