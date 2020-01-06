@@ -18,7 +18,7 @@ import Lobby from './components/Lobby';
 Amplify.configure(awsconfig);
 Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
-const App: React.SFC = () => {
+const App = () => {
   return (
     <Router>
       <Switch>
@@ -33,4 +33,33 @@ const App: React.SFC = () => {
   );
 }
 
-export default withAuthenticator(App, true);
+const authConfig = {
+  hiddenDefaults: [
+    'email',
+    'phone_number',
+    'username'
+  ],
+  signUpFields: [
+    {
+      label: 'Email',
+      key: 'email',
+      required: true,
+      type: 'string'
+    },
+    {
+      label: 'Username',
+      key: 'preferred_username',
+      required: true,
+      type: 'string'
+    },
+    {
+      label: 'Password',
+      key: 'password',
+      required: true,
+      type: 'password'
+    }
+  ],
+  usernameAttributes: 'Username'
+};
+
+export default withAuthenticator(App, true, [], null, null, authConfig);
