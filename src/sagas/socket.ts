@@ -17,8 +17,10 @@ function* createLobbyChannel(socket: any) {
 
 function* socketConnectSaga(action: any) {
 
-  const socket = new WebSocket(action.host);
-  const channel = yield call(createLobbyChannel, socket);
+  wsocket = new WebSocket(action.host);
+  const channel = yield call(createLobbyChannel, wsocket);
+
+  yield put({ type: "SET_SOCKET", payload: wsocket });
 
   while (true) {
     const { type, socket, payload } = yield take(channel);

@@ -184,6 +184,13 @@ const reducer: Reducer = (state = initialState, action: ApplicationActionTypes) 
       }
     }
 
+    case "SET_SOCKET": {
+      return {
+        ...state,
+        LobbySocket: action.payload
+      }
+    }
+
     default:
       return state;
   }
