@@ -1,10 +1,10 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react';
-import { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
+import { withAuthenticator } from "aws-amplify-react";
+import { AmazonAIPredictionsProvider } from "@aws-amplify/predictions";
 
 import {
   BrowserRouter as Router,
@@ -12,8 +12,8 @@ import {
   Route
 } from "react-router-dom";
 
-import GameWrapper from './components/GameWrapper';
-import Lobby from './components/Lobby';
+import GameWrapper from "./components/GameWrapper";
+import Lobby from "./components/Lobby";
 
 Amplify.configure(awsconfig);
 Amplify.addPluggable(new AmazonAIPredictionsProvider());
@@ -33,31 +33,31 @@ const App = () => {
 
 const authConfig = {
   hiddenDefaults: [
-    'email',
-    'phone_number',
-    'username'
+    "email",
+    "phone_number",
+    "username"
   ],
   signUpFields: [
     {
-      label: 'Email',
-      key: 'email',
+      label: "Email",
+      key: "email",
       required: true,
-      type: 'string'
+      type: "string"
     },
     {
-      label: 'Username',
-      key: 'preferred_username',
+      label: "Username",
+      key: "preferred_username",
       required: true,
-      type: 'string'
+      type: "string"
     },
     {
-      label: 'Password',
-      key: 'password',
+      label: "Password",
+      key: "password",
       required: true,
-      type: 'password'
+      type: "password"
     }
   ],
-  usernameAttributes: 'Username'
+  usernameAttributes: "Username"
 };
 
 export default withAuthenticator(App, true, [], null, null, authConfig);
