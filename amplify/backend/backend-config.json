@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"bringme722f13f1": {
+		"bringmee8e0b72ee8e0b72e": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": []
@@ -13,5 +13,6 @@
 			"dependsOn": [],
 			"identifyType": "identifyLabels"
 		}
-	}
+	},
+	"function": {}
 }

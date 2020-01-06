@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "bringme722f13f1_identitypool_722f13f1",
+    "identityPoolName": "bring_mee8e0b72e_identitypool_e8e0b72e",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "bringm722f13f1",
-    "userPoolName": "bringme722f13f1_userpool_722f13f1",
+    "resourceNameTruncated": "bringme8e0b72e",
+    "userPoolName": "bring_mee8e0b72e_userpool_e8e0b72e",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -18,7 +18,8 @@
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
-        "email"
+        "email",
+        "preferred_username"
     ],
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
@@ -28,10 +29,17 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "bringm722f13f1_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "bringme8e0b72e_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "bringme722f13f1",
+    "useDefault": "manual",
     "authSelections": "identityPoolAndUserPool",
+    "resourceName": "bringmee8e0b72ee8e0b72e",
+    "thirdPartyAuth": false,
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "hostedUI": false,
+    "userPoolGroupList": [],
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -44,10 +52,9 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
-    "usernameAttributes": [
-        "email"
-    ],
-    "userPoolGroupList": [],
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": [],
     "dependsOn": []
 }
