@@ -97,7 +97,8 @@ const Lobby: React.FC = (props: any) => {
         </section>
       </div>
       <div className="p-4 text-4xl">
-        <button className="block">Start Matchmaking</button>
+        <button className="block" onClick={() => props.startMatchMaking()}>Start Matchmaking</button>
+        <button className="block" onClick={() => props.cancelMatchMaking()}>Cancel Matchmaking</button>
         <button className="block">
           <Link to="/game">Single-Player Mode</Link>
         </button>
@@ -107,11 +108,14 @@ const Lobby: React.FC = (props: any) => {
 }
 
 const mapStateToProps = (state: any) => ({
-  Lobby: state.Lobby
+  Lobby: state.app.Lobby
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
-  socketConnect: (host: string) => dispatch(socketConnect(host))
+  socketConnect: (host: string) => dispatch(socketConnect(host)),
+  socketDisconnect: () => dispatch(socketDisconnect()),
+  startMatchMaking: () => dispatch(startMatchMaking()),
+  cancelMatchMaking: () => dispatch(cancelMatchMaking()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lobby);
