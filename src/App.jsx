@@ -14,6 +14,7 @@ import {
 
 import GameWrapper from "./components/GameWrapper";
 import Lobby from "./components/Lobby";
+import Match from "./components/Match";
 
 Amplify.configure(awsconfig);
 Amplify.addPluggable(new AmazonAIPredictionsProvider());
@@ -23,6 +24,9 @@ const App = () => {
     <Switch>
       <Route path="/game">
         <GameWrapper />
+      </Route>
+      <Route path="/match/:channel/:port">
+        <Match />
       </Route>
       <Route path="/">
         <Lobby />
