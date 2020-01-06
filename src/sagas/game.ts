@@ -30,8 +30,8 @@ function* getLabelsSaga(data: any) {
     yield put({ type: "FETCHING_RECOGNITION", payload: false });
 
     // fetch the current word from state
-    let words = yield select((state) => state.Game.words);
-    let currentWordIndex = yield select((state) => state.Game.currentWordIndex);
+    let words = yield select((state) => state.app.Game.words);
+    let currentWordIndex = yield select((state) => state.app.Game.currentWordIndex);
     const currentWord = words[currentWordIndex].text;
 
     // check the labels for a match against the current word in the game logic
@@ -59,10 +59,10 @@ function* getLabelsSaga(data: any) {
 
 function* startClockSaga() {
   yield put({ type: "SET_CLOCK", payload: 60 });
-  let time = yield select((state) => state.Game.timer);
+  let time = yield select((state) => state.app.Game.timer);
 
   while (time > 0) {
-    time = yield select((state) => state.Game.timer);
+    time = yield select((state) => state.app.Game.timer);
     yield put({ type: "DECREMENT_CLOCK" });
     yield delay(1000);
   }

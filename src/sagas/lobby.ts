@@ -9,7 +9,7 @@ function* startMatchMakingSaga() {
     type: "PLAYER_READY",
     player: {id: uuid, name: player.username},
   });
-  let wsocket = yield select((state) => state.LobbySocket);
+  let wsocket = yield select((state) => state.app.LobbySocket);
   yield wsocket.send(readyMessage);
   return;
 }
@@ -22,7 +22,7 @@ function* cancelMatchMakingSaga() {
     type: "PLAYER_CANCEL",
     player: { id: uuid, name: player.username },
   });
-  let wsocket = yield select((state) => state.LobbySocket);
+  let wsocket = yield select((state) => state.app.LobbySocket);
   yield wsocket.send(cancelMessage);
   return;
 }
