@@ -4,20 +4,21 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux"; 
 import { Dispatch, AnyAction } from "redux";
 
-import { socketConnect } from "../actions";
-import { propStyle } from "aws-amplify-react";
+import { socketConnect, socketDisconnect, startMatchMaking, cancelMatchMaking } from "../actions";
 
 const Lobby: React.FC = (props: any) => {
-
-  // fire off the action to make the WS connection
-  // todo: use an env variable to poin to the wsServer
-  const socket = useEffect(()=> {
-    props.socketConnect("ws://127.0.0.1:8080");
+  const socket = useEffect(() => {
+    props.socketConnect("ws://127.0.0.1:8080/lobby");
+    window.addEventListener('beforeunload', () => {
+      props.socketDisconnect();
+    });
     return () => {
-      // cleanup here, disconnect from socket
-      props.closeSocket();
+      props.socketDisconnect();
+      window.removeEventListener('beforeunload', props.socketDisconnect());
     }
   }, []);
+
+  console.log(props);
 
   return (
     <div className="lobby">
@@ -29,48 +30,54 @@ const Lobby: React.FC = (props: any) => {
             <ul>
               {props.Lobby && props.Lobby.online && 
                 props.Lobby.online.map((online: any, index: any) => {
-                  console.log(online);
-                  return <div key={index}>{online.id}: {online.name}</div>;
+                  return <li key={index}>{online.name}</li>;
                 })
               }
-              {/* <li>JJplusplus</li>
-              <li>nullSector</li>
-              <li>franchizzles</li>
-              <li>troolstoll</li>
-              <li>deanomite</li> */}
             </ul>
           </div>
           <div className="p-2">
-            <p className="text-xl">Offline</p>
+            <p className="text-xl">All Players</p>
             <ul>
-              {/* <li>XtraSalty</li>
-              <li>Squortellini</li>
-              <li>brosefGeorge</li>
-              <li>SaltySurprise</li>
-              <li>x100xPercentx</li>
-              <li>...</li> */}
+              {props.Lobby && props.Lobby.offline &&
+                props.Lobby.offline.map((offline: any, index: any) => {
+                  return <li key={index}>{offline.Username}</li>;
+                })
+              }
             </ul>
           </div>
         </section>
         <section className="flex-1 p-4">
           <h1 className="text-2xl">Matchmaking</h1>
           <div className="p-4">
-            <p className="text-xl">Groups</p>
+            <p className="text-xl">Groups (waiting to start a match)</p>
             <div className="group bg-gray-200 p-2">
               <ul>
-                {/* <li>Jjonak</li>
-                <li>Pokpo</li>
-                <li>DoubleLift</li>
-                <li>dddrewsky</li>
-                <li>Pokimane</li> */}
+                {props.Lobby && props.Lobby.matchMakingQueue &&
+                  props.Lobby.matchMakingQueue.groups.map((group: any, groupIndex: any) => {
+                    return <li key={groupIndex}>
+                      <ul>
+                        { 
+                          group.map((player: any, playerIndex: any) => {
+                            return <li key={playerIndex}>
+                              {player.name}
+                            </li>
+                          })
+                        }
+                      </ul>
+                    </li>
+                  })
+                }
               </ul>
             </div>
           </div>
           <div className="p-4">
-            <p className="text-xl">Waiting...</p>
+            <p className="text-xl">Waiting for (n) more players...</p>
             <ul>
-              {/* <li>cakeGirl</li>
-              <li>SaltyLemon</li> */}
+              {props.Lobby && props.Lobby.matchMakingQueue && 
+                props.Lobby.matchMakingQueue.waiting.map((player: any, index: any) => {
+                  return <li key={index}>{player.name}</li>;
+                })
+              }
             </ul>
           </div>
         </section>
