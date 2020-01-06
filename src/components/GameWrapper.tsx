@@ -108,10 +108,10 @@ const GameWrapper: React.FC<Props> = ( props ) => {
   )
 }
 
-const mapStateToProps = (state: AppState) => ({
-  Game: state.Game,
-  Recognition: state.Recognition,
-  Camera: state.Camera
+const mapStateToProps = (state: any) => ({
+  Game: state.app.Game,
+  Recognition: state.app.Recognition,
+  Camera: state.app.Camera
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
