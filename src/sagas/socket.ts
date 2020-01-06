@@ -61,7 +61,7 @@ function* socketOnMessage(event: any) {
       const enterMatch = players.filter((p: any) => p.id === uuid);
       if (enterMatch) {
         // update react history to go to /match/:channelID
-        yield put(push("/match/" + channel.name));
+        yield put(push("/match/" + channel.name + "/" + channel.port));
       }
       break;
     default:
