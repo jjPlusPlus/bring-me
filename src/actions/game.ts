@@ -66,6 +66,19 @@ export interface SocketDisconnect {
   type: "SOCKET_DISCONNECT"
 }
 
+export interface StartMatchMaking {
+  type: "START_MATCHMAKING"
+}
+
+export interface CancelMatchMaking {
+  type: "CANCEL_MATCHMAKING"
+}
+
+export interface SetSocket {
+  type: "SET_SOCKET",
+  payload: any
+}
+
 export type ApplicationActionTypes =
   | AddScreenshot
   | RecognizeImage
@@ -77,9 +90,12 @@ export type ApplicationActionTypes =
   | NextWord
   | IncreaseScore
   | RecognitionLabels
-  | UpdateLobby 
+  | UpdateLobby
+  | SetSocket  
   | SocketConnect
-  | SocketDisconnect;
+  | SocketDisconnect
+  | StartMatchMaking 
+  | CancelMatchMaking;
 
 export const recognizeImage = (data: string) => ({
   type: "RECOGNIZE_IMAGE",
