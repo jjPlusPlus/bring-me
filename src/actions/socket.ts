@@ -3,7 +3,6 @@ export const socketConnect = (host: any) => ({
   host
 });
 
-export const socketDisconnect = (host: any) => ({
-  type: "SOCKET_DISCONNECT",
-  host
+export const socketDisconnect = () => ({
+  type: "SOCKET_DISCONNECT" 
 });
