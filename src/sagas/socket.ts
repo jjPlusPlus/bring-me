@@ -1,5 +1,8 @@
 import { put, call, take, takeLatest, takeEvery } from 'redux-saga/effects';
 import { eventChannel } from "redux-saga";
+import { Auth } from 'aws-amplify';
+
+let wsocket: any; 
 
 function* createLobbyChannel(socket: any) {
   return eventChannel((emit) => {
@@ -32,28 +35,19 @@ function* socketConnectSaga(action: any) {
       case "SOCKET_OPENED":
         yield socketOnOpen(socket);
         break;
+      case "SOCKET_CLOSED":
+        console.log('socket closed');
+        break;
       default:
         break;
-    }
-    
+    } 
   }
-  // the server sent a message
-  // socket.onmessage = yield socketOnMessage(action);
-
-  // the server ended the connection  
-  // socket.onclose = yield socketOnClose();
-
-  // the server opened the connection
-  // socket.onopen = yield socketOnOpen();
 }
 
 function* socketOnMessage(event: any) {
   const message = JSON.parse(event);
-  console.log('socketOnMessage');
   switch (message.type) {
     case "UPDATE_LOBBY":
-      // fire off an action to update the entire lobby state 
-      // I think what happens here is that we get the entire state
       yield put({ type: "UPDATE_LOBBY", payload: message.state});
       break;
     default:
@@ -63,35 +57,31 @@ function* socketOnMessage(event: any) {
 }
 
 function* socketOnOpen(socket: any) {
-
+  const player = yield Auth.currentAuthenticatedUser();
+  const uuid = player.attributes['sub'];
   const socketMessage = JSON.stringify({
     type: "JOIN_LOBBY",
     player: {
-      id: "f916cb08-c05a-41ec-ac39-ee42150026c4",
-      name: "JJPlusPlus"
+      id: uuid,
+      name: player.username
     }
   });
 
   yield socket.send(socketMessage);
-
-  // ... we probably also want to get the current lobby state here
-  // ... but the server will likely broadcast after receiving this.
 }
 
-// function* socketOnClose() {
-//   socket = null;
-// }
-
 // the user initiated a disconnection 
-function* socketDisconnectSaga(socket: any) {
+function* socketDisconnectSaga() {
+  const player = yield Auth.currentAuthenticatedUser();
+  const uuid = player.attributes['sub'];
   // send a message to the socket lobby channel to disconnect the user
   const disconnectMessage = JSON.stringify({
-    command: "PLAYER_DISCONNECTED",
-    player: "f916cb08-c05a-41ec-ac39-ee42150026c4",
+    type: "PLAYER_DISCONNECTED",
+    player: uuid,
   });
-  yield socket.send(disconnectMessage);
+  yield wsocket.send(disconnectMessage);
   // then clean up the connection
-  yield socket.close();
+  // yield wsocket.close();
 }
 
 export function* socketConnectWatcher() {
