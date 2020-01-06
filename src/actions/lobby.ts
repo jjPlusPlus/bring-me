@@ -6,3 +6,11 @@ export const updateLobby = (state: any) => ({
     state: state
   }
 });
+
+export const startMatchMaking = () => ({
+  type: "START_MATCHMAKING",
+});
+
+export const cancelMatchMaking = () => ({
+  type: "CANCEL_MATCHMAKING",
+});
